@@ -1,18 +1,14 @@
 <template>
   <div>
     <vs-row>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6">
         <vs-input placeholder="Username">
           <template #message-danger>
             Required
           </template>
         </vs-input>
       </vs-col>
-    </vs-row>
-    <br>
-    <br>
-    <vs-row>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6">
         <vs-input
           required autofocus
           label="Email address"

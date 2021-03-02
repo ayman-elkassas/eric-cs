@@ -6,7 +6,7 @@
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text">
-          <fa icon="envelope" />
+          <i class="bx bx-mail-send"></i>
         </span>
       </div>
       <input type="email" class="form-control" placeholder="Email address">
@@ -14,7 +14,7 @@
     <div class="input-group mb-4">
       <div class="input-group-prepend">
         <span class="input-group-text">
-          <fa icon="lock" />
+          <i class="bx bx-lock"></i>
         </span>
       </div>
       <input type="password" class="form-control" placeholder="Password">
@@ -28,9 +28,9 @@
     <button class="btn btn-block btn-primary mb-0">Signin</button>
     <div class="text-center">
       <div class="saprator my-4"><span>OR</span></div>
-      <button class="btn text-white bg-facebook mb-2 mr-2  wid-40 px-0 hei-40 rounded-circle"></button>
-      <button class="btn text-white bg-googleplus mb-2 mr-2 wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-google-plus-g"></i></button>
-      <button class="btn text-white bg-twitter mb-2  wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-twitter"></i></button>
+      <button class="btn text-white bg-facebook mb-2 mr-2  wid-40 px-0 hei-40 rounded-circle"><i class="bx bxl-facebook"></i></button>
+      <button class="btn text-white bg-googleplus mb-2 mr-2 wid-40 px-0 hei-40 rounded-circle"><i class="bx bxl-google-plus"></i></button>
+      <button class="btn text-white bg-twitter mb-2  wid-40 px-0 hei-40 rounded-circle"><i class="bx bxl-twitter"></i></button>
       <p class="mb-2 mt-4 text-muted">Forgot password? <a href="auth-reset-password-img-side.html" class="f-w-400">Reset</a></p>
       <p class="mt-4">Don’t have an account? <nuxt-link to="/auth/signup" class="f-w-400">Signup</nuxt-link></p>
       <p class="mb-0 text-muted">Back to home? <nuxt-link to="/" class="f-w-400">Home</nuxt-link></p>

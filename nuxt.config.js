@@ -19,20 +19,24 @@ export default {
   css: [
     'vuesax/dist/vuesax.css',
     'boxicons/css/boxicons.min.css',
+    'vue-form-wizard/dist/vue-form-wizard.min.css',
 
     //todo:home Layout assets
     {src:"~assets/home/app-assets/css/bootstrap.min.css"},
     {src:"~assets/home/app-assets/css/bootstrap-extended.min.css"},
     {src:"~assets/home/app-assets/css/pages/page-profile.min.css"},
     {src:"~assets/home/app-assets/css/pages/app-file-manager.css"},
+    {src:"~assets/home/app-assets/css/plugins/forms/form-wizard.min.css"},
     {src:"overlayscrollbars/css/OverlayScrollbars.css"},
+
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vuesax',
     '@/plugins/overlayscrollbars',
-    { src: "@/plugins/vuetimeline.js" }
+    { src: "@/plugins/vuetimeline.js" },
+    { src: "@/plugins/vue-form-wizard.js" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

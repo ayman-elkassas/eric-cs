@@ -55,7 +55,7 @@
           </vs-navbar-item>
         </template>
         <template #right>
-          <vs-button flat >Login</vs-button>
+          <vs-button flat  to="/auth/login">Login</vs-button>
           <vs-button primary circle>Get Started</vs-button>
         </template>
       </vs-navbar>

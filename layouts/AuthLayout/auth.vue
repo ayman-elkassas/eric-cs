@@ -32,6 +32,11 @@ name: "auth"
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+  overflow: hidden;
+}
+
+.vs-input{
+  width: 100%;
 }
 
 </style>

@@ -1,31 +1,53 @@
 <template>
-
   <div class="auth-content">
-    <img src="assets/images/auth/auth-logo-dark.html" alt="" class="img-fluid mb-4 d-block d-xl-none d-lg-none">
-    <h3 class="mb-4 f-w-400">Signin</h3>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">
-          <i class="bx bx-mail-send"></i>
-        </span>
-      </div>
-      <input type="email" class="form-control" placeholder="Email address">
+    <h4 class="mb-4 f-w-400">Sign in</h4>
+
+    <div class="center content-inputs">
+      <br>
+      <vs-row>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+          <vs-input
+            required autofocus
+            v-model="request.email"
+            label="Email address"
+            placeholder="eric@eric.com">
+            <template v-if="validEmail" #message-success>
+              Email Valid
+            </template>
+            <template v-if="!validEmail && request.email !== ''" #message-danger>
+              Email Invalid
+            </template>
+          </vs-input>
+        </vs-col>
+      </vs-row>
+      <br>
+      <br>
+      <vs-row>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+          <vs-input
+            type="password"
+            v-model="request.password"
+            label="Password Account"
+            placeholder="password"
+            :progress="getProgress">
+
+            <template v-if="getProgress >= 100" #message-success>
+              Secure password
+            </template>
+
+            <template v-if="getProgress < 40" #message-danger>
+              A special character-More than 6 digits-One lower case letter-An uppercase letter-A number
+            </template>
+
+          </vs-input>
+        </vs-col>
+      </vs-row>
+
     </div>
-    <div class="input-group mb-4">
-      <div class="input-group-prepend">
-        <span class="input-group-text">
-          <i class="bx bx-lock"></i>
-        </span>
-      </div>
-      <input type="password" class="form-control" placeholder="Password">
-    </div>
-    <div class="form-group text-left mt-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input input-primary" id="customCheckdefh2" checked="">
-        <label class="custom-control-label" for="customCheckdefh2">Save credentials</label>
-      </div>
-    </div>
-    <button class="btn btn-block btn-primary mb-0">Signin</button>
+
+    <br>
+
+    <button class="btn btn-block btn-primary mb-0" :disabled="!activeSignIn" @click="Login()">Sign in</button>
     <div class="text-center">
       <div class="saprator my-4"><span>OR</span></div>
       <button class="btn text-white bg-facebook mb-2 mr-2  wid-40 px-0 hei-40 rounded-circle"><i class="bx bxl-facebook"></i></button>
@@ -42,7 +64,112 @@
 <script>
 export default {
   name: "login",
-  layout:"AuthLayout/auth"
+  layout:"AuthLayout/auth",
+  data(){
+    return{
+      request: {
+        email: "",
+        password: "",
+      },
+      active: false,
+      color: '#7a76cb',
+    }
+  },
+  computed:{
+    validEmail() {
+      this.emailValid=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.request.email)
+      return this.emailValid;
+    },
+    getProgress() {
+      let progress = 0
+
+      // at least one number
+
+      if (/\d/.test(this.request.password)) {
+        progress += 20
+      }
+
+      // at least one capital letter
+
+      if (/(.*[A-Z].*)/.test(this.request.password)) {
+        progress += 20
+      }
+
+      // at menons a lowercase
+
+      if (/(.*[a-z].*)/.test(this.request.password)) {
+        progress += 20
+      }
+
+      // more than 5 digits
+
+      if (this.request.password.length >= 6) {
+        progress += 20
+      }
+
+      // at least one special character
+
+      if (/[^A-Za-z0-9]/.test(this.request.password)) {
+        progress += 20
+      }
+
+      this.passwordValid=progress;
+      return progress
+    },
+    activeSignIn(){
+      return this.validEmail && (this.getProgress>60);
+    }
+  },
+  methods:{
+    Login(){
+
+      this.loading = this.$vs.loading({
+        percent: this.percent,
+        background: this.color,
+        color: '#fff'
+      })
+
+      this.interval= setInterval(() => {
+        if (this.percent <= 100) {
+          this.loading.changePercent(`${this.percent++}%`)
+        }
+      }, 40)
+
+      this.$axios.$post(`/auth/loginUser`,this.request).then((res)=>{
+        console.table(res)
+        this.openNotification('top-left', 'success',
+          `<i class='bx bx-select-multiple' ></i>`,
+          'Login Successfully',
+          'New User added with rules and permissions');
+
+        this.loading.close()
+        clearInterval(this.interval)
+        this.percent = 0
+
+        this.$router.push('/home/timeline');
+
+      }).catch((error)=>{
+        this.openNotification('top-left', 'danger',
+          `<i class='bx bxs-bug' ></i>`,
+          'Make Sure From Credentials',
+          'Username or password not matched with account credentials,' +
+          'make sure and try again...');
+        this.loading.close()
+        clearInterval(this.interval)
+        this.percent = 0
+      });
+    },
+    openNotification(position = null, border,icon,title,text) {
+      const noti = this.$vs.notification({
+        border,
+        icon,
+        progress: 'auto',
+        position,
+        title:title ,
+        text:text
+      })
+    },
+  }
 }
 </script>
 

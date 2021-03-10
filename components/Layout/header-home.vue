@@ -13,7 +13,7 @@
             to="/home/profile"
             :active="active === 'guide'" id="guide">
             <vs-avatar badge badge-color="success" history primary>
-              <img src="~/assets/home/app-assets/images/avatars/2.png" alt="">
+              <img :src="$get('PREFIX')+$auth.user.avatar" alt="">
               <template #badge>
                 AE
               </template>
@@ -72,13 +72,13 @@ export default {
   data(){
     return {
       active: 'home',
-      authenticate:this.$auth.loggedIn
+      authenticate:this.$auth.loggedIn,
     }
   },
   methods:{
     logout(){
       this.$auth.logout();
-    }
+    },
   }
 }
 </script>

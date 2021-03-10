@@ -99,6 +99,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    [
+      'nuxt-global-var',
+      {
+        data: {
+          PREFIX: 'http://127.0.0.1:8000/storage'
+        }
+      }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

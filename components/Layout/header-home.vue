@@ -54,9 +54,12 @@
             license
           </vs-navbar-item>
         </template>
-        <template #right>
-          <vs-button flat  to="/auth/login">Login</vs-button>
-          <vs-button primary circle>Get Started</vs-button>
+        <template v-if="authenticate" #right>
+          <vs-button @click="logout()" flat>Logout</vs-button>
+          <vs-button primary circle>{{$auth.user.fname}} {{$auth.user.lname}}</vs-button>
+        </template>
+        <template v-else #right>
+          <vs-button flat to="/auth/login">Login</vs-button>
         </template>
       </vs-navbar>
 
@@ -66,9 +69,17 @@
 <script>
 export default {
   name: "header-home",
-  data:() => ({
-    active: 'home'
-  })
+  data(){
+    return {
+      active: 'home',
+      authenticate:this.$auth.loggedIn
+    }
+  },
+  methods:{
+    logout(){
+      this.$auth.logout();
+    }
+  }
 }
 </script>
 

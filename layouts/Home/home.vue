@@ -16,6 +16,7 @@ import MenuHome from '~/components/Layout/menu-home.vue';
 import FooterHome from '~/components/Layout/footer-home.vue';
 
 export default {
+  middleware:"auth",
   head(){
     return{
       link: [

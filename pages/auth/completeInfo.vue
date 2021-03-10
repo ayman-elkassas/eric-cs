@@ -96,45 +96,6 @@ export default {
     handleFilePondInit: function() {
       console.log('FilePond has initialized');
     },
-    uploadRequest(){
-      this.loading = this.$vs.loading({
-        percent: this.percent,
-        background: this.color,
-        color: '#fff'
-      })
-
-      this.interval= setInterval(() => {
-        if (this.percent <= 100) {
-          this.loading.changePercent(`${this.percent++}%`)
-        }
-      }, 40)
-
-      this.request.email=this.$props.email;
-      this.request.password=this.$props.password;
-
-      this.$axios.$post(`/auth/registerUser`,this.request).then((res)=>{
-        this.openNotification('top-left', 'success',
-          `<i class='bx bx-select-multiple' ></i>`,
-          'Add New User Account Successfully',
-          'New User added with rules and permissions');
-
-        this.loading.close()
-        clearInterval(this.interval)
-        this.percent = 0
-
-        this.$router.push('/auth/login');
-
-      }).catch((error)=>{
-          this.openNotification('top-left', 'danger',
-            `<i class='bx bxs-bug' ></i>`,
-            'Make Sure From Credentials',
-            'Username or password not matched with account credentials,' +
-            'make sure and try again...');
-          this.loading.close()
-          clearInterval(this.interval)
-          this.percent = 0
-        });
-    },
     fileAdd:function (error,file){
       if (error) {
         console.log('Oh no');
@@ -160,6 +121,52 @@ export default {
     fileRemove:function () {
       this.disable=true;
     },
+    //todo:async for implement next code not wait execute this func
+    async register(){
+      this.loading = this.$vs.loading({
+        percent: this.percent,
+        background: this.color,
+        color: '#fff'
+      })
+
+      this.interval= setInterval(() => {
+        if (this.percent <= 100) {
+          this.loading.changePercent(`${this.percent++}%`)
+        }
+      }, 40)
+
+      this.request.email=this.$props.email;
+      this.request.password=this.$props.password;
+
+      //todo:await for wait to execute
+      await this.$axios.$post(`api/auth/registerUser`,this.request).then((res)=>{
+
+        if(typeof res.access_token!=='undefined'){
+          this.$auth.setUserToken(res.access_token,true)
+        }
+
+        this.openNotification('bottom-right', 'success',
+          `<i class='bx bx-select-multiple' ></i>`,
+          'Login Successfully',
+          'New User added with rules and permissions');
+
+        this.loading.close()
+        clearInterval(this.interval)
+        this.percent = 0
+
+        this.$router.push('/home/timeline');
+
+      }).catch((error)=>{
+        this.openNotification('top-left', 'danger',
+          `<i class='bx bxs-bug' ></i>`,
+          'Make Sure From Credentials',
+          'Username or password not matched with account credentials,' +
+          'make sure and try again...');
+        this.loading.close()
+        clearInterval(this.interval)
+        this.percent = 0
+      });
+    },
     openNotification(position = null, border,icon,title,text) {
       const noti = this.$vs.notification({
         border,
@@ -171,7 +178,7 @@ export default {
       })
     },
     onComplete(){
-      this.uploadRequest();
+      this.register();
     }
   }
 

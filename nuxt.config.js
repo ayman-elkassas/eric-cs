@@ -14,7 +14,6 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
   },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vuesax/dist/vuesax.css',
@@ -46,6 +45,34 @@ export default {
     { src: "@/plugins/vue-file-pond.js" },
   ],
 
+  //todo: this is right way auth syntax
+  auth:{
+    strategies:{
+      'laravelJWT':{
+        provider: 'users',
+        url: '/api',
+        endpoints:{
+          login:{url:"/auth/login/",method:'post',propertyName:'false'},
+          user: { url: '/auth/user/', method: 'get', propertyName: 'false' },
+          logout: { url: '/auth/logout/', method: 'get',propertyName: 'false' }
+        },
+        token: {
+          property: 'access_token',
+          maxAge: 60 * 60
+        },
+        refreshToken: {
+          maxAge: 20160 * 60
+        },
+      }
+    },
+    redirect:{
+      login:'/auth/login/',
+      home:"/home/timeline/"
+    },
+    fullPathRedirect: true,
+    rewriteRedirects: true,
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -71,6 +98,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -80,6 +108,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extractCSS:true
   },
 
   //todo:Added Value

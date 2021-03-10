@@ -38,7 +38,6 @@
             <template v-if="getProgress < 40" #message-danger>
               A special character-More than 6 digits-One lower case letter-An uppercase letter-A number
             </template>
-
           </vs-input>
         </vs-col>
       </vs-row>
@@ -65,6 +64,7 @@
 export default {
   name: "login",
   layout:"AuthLayout/auth",
+  middleware:"guest",
   data(){
     return{
       request: {
@@ -73,6 +73,8 @@ export default {
       },
       active: false,
       color: '#7a76cb',
+      token:"",
+      provider:"",
     }
   },
   computed:{
@@ -121,7 +123,7 @@ export default {
     }
   },
   methods:{
-    Login(){
+    async Login(){
 
       this.loading = this.$vs.loading({
         percent: this.percent,
@@ -135,9 +137,13 @@ export default {
         }
       }, 40)
 
-      this.$axios.$post(`/auth/loginUser`,this.request).then((res)=>{
-        console.table(res)
-        this.openNotification('top-left', 'success',
+      await this.$axios.$post(`api/auth/login`,this.request).then((res)=> {
+
+        if (typeof res.access_token !== 'undefined') {
+          this.$auth.setUserToken(res.access_token, true)
+        }
+
+        this.openNotification('bottom-right', 'success',
           `<i class='bx bx-select-multiple' ></i>`,
           'Login Successfully',
           'New User added with rules and permissions');
@@ -146,17 +152,8 @@ export default {
         clearInterval(this.interval)
         this.percent = 0
 
-        this.$router.push('/home/timeline');
+        window.location.reload();
 
-      }).catch((error)=>{
-        this.openNotification('top-left', 'danger',
-          `<i class='bx bxs-bug' ></i>`,
-          'Make Sure From Credentials',
-          'Username or password not matched with account credentials,' +
-          'make sure and try again...');
-        this.loading.close()
-        clearInterval(this.interval)
-        this.percent = 0
       });
     },
     openNotification(position = null, border,icon,title,text) {

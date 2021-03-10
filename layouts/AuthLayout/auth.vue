@@ -19,7 +19,8 @@
 
 <script>
 export default {
-name: "auth"
+  name: "auth",
+  middleware:"guest",
 }
 </script>
 

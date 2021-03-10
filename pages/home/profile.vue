@@ -23,14 +23,14 @@
                   <div class="profile-img-container d-flex align-items-center">
                     <div class="profile-img">
                       <img
-                        src="~/assets/home/app-assets/images/portrait/small/avatar-s-2.jpg"
+                        :src="$get('PREFIX')+$auth.user.avatar"
                         class="rounded img-fluid"
                         alt="Card image"
                       />
                     </div>
                     <!-- profile title -->
                     <div class="profile-title ml-3">
-                      <h2 class="text-white">Ayman Elkassas</h2>
+                      <h2 class="text-white">{{ $auth.user.fname }} {{$auth.user.lname}}</h2>
                       <p class="text-white">Software Engineer</p>
                     </div>
                   </div>
